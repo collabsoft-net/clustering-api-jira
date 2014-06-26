@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    
+    <groupId>net.collabsoft</groupId>
+    <artifactId>clustering-api-jira</artifactId>
+    <version>0.9.0</version>
+    <packaging>jar</packaging>
+
+    <name>JIRA Clustering API</name>
+    <description>
+        The Clustering API for Atlassian JIRA add-ons project is designed to 
+        create a backwards-compatible library for caching and scheduling in
+        Atlassian JIRA. The goal is to create an API that can be used in both
+        clustered (JIRA 6.3 and above) and non-clustered (JIRA 5.0 to 6.2.x)
+        instances.
+        
+        The Cache API will use in-memory EhCache as a fall-back if the 
+        CacheManager service is not available.
+        
+        Scheduling will use the Atlassian Concurrent Utilities library 
+        (com.atlassian.util.concurrent.ThreadFactories) in combination with
+        the JAVA ExecutorsService interface to schedule deamon service in case
+        the clustered SchedulerService is not available.
+    </description>
+
+    <organization>
+        <name>Collabsoft</name>
+    </organization>
+    
+    <developers>
+        <developer>
+            <name>Remie Bolte</name>
+            <organization>Collabsoft</organization>
+            <roles>
+                <role>Lead developer</role>
+            </roles>
+        </developer>
+    </developers>
+    
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name> 
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+    
+    <scm>
+        <url>https://bitbucket.org/collabsoft/clustering-api-jira</url>
+    </scm>
+    
+    <issueManagement>
+        <system>Atlassian JIRA (OnDemand)</system>
+        <url>https://collabsoft.atlassian.net/browse/CJ</url>
+    </issueManagement>
+    
+    <ciManagement>
+        <system>Atlassian Bamboo (OnDemand)</system>
+        <url>https://collabsoft.atlassian.net/builds/browse/CS-CJ</url>
+    </ciManagement>
+
+    <properties>
+        <jira.version>6.3-m07</jira.version>
+        <scheduler-api.version>1.2.2</scheduler-api.version>
+        <cache-api.version>2.3.4</cache-api.version>
+        <ehcache.version>2.7.5</ehcache.version>
+        <log4j.version>1.2.16</log4j.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
+        <!-- Include EhCache for local caching (prior to JIRA 6.3) -->
+        <dependency>
+            <groupId>net.sf.ehcache</groupId>
+            <artifactId>ehcache</artifactId>
+            <version>${ehcache.version}</version>
+        </dependency>
+        
+        <!-- Atlassian dependencies (Provided by JIRA) -->
+        <dependency>
+            <groupId>com.atlassian.scheduler</groupId>
+            <artifactId>atlassian-scheduler-api</artifactId>
+            <version>${scheduler-api.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.atlassian.cache</groupId>
+            <artifactId>atlassian-cache-api</artifactId>
+            <version>${cache-api.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.atlassian.jira</groupId>
+            <artifactId>jira-core</artifactId>
+            <version>${jira.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.atlassian.jira</groupId>
+            <artifactId>jira-api</artifactId>
+            <version>${jira.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>${log4j.version}</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>1.5</source>
+                    <target>1.5</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
