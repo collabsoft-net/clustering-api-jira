@@ -25,13 +25,6 @@ public interface CacheSettings {
     public TimeUnit getExpireAfterWriteTimeUnit();
     public void setExpireAfterWriteTimeUnit(TimeUnit expireAfterWriteTimeUnit);
 
-    public boolean isRefreshAfterWrite();
-    public void setRefreshAfterWrite(boolean eefreshAfterWrite);
-    public int getRefreshAfterWriteInterval();
-    public void setRefreshAfterWriteInterval(int refreshAfterWriteInterval);
-    public TimeUnit getRefreshAfterWriteTimeUnit();
-    public void setRefreshAfterWriteTimeUnit(TimeUnit refreshAfterWriteTimeUnit);
-    
     public boolean hasEntryLimit();
     public void setEntryLimit(boolean entryLimit);
     public int getMaxEntries();
