@@ -7,7 +7,7 @@
     
     <groupId>net.collabsoft</groupId>
     <artifactId>clustering-api-jira</artifactId>
-    <version>0.9.1</version>
+    <version>0.9.2</version>
     <packaging>jar</packaging>
 
     <name>JIRA Clustering API</name>
@@ -78,36 +78,22 @@
             <artifactId>ehcache</artifactId>
             <version>${ehcache.version}</version>
         </dependency>
-        
-        <!-- Atlassian dependencies (Provided by JIRA) -->
         <dependency>
             <groupId>com.atlassian.scheduler</groupId>
             <artifactId>atlassian-scheduler-api</artifactId>
             <version>${scheduler-api.version}</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.atlassian.cache</groupId>
             <artifactId>atlassian-cache-api</artifactId>
             <version>${cache-api.version}</version>
-            <scope>provided</scope>
         </dependency>
+        
+        <!-- Atlassian dependencies (Provided by JIRA) -->
         <dependency>
             <groupId>com.atlassian.jira</groupId>
             <artifactId>jira-core</artifactId>
             <version>${jira.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.atlassian.jira</groupId>
-            <artifactId>jira-api</artifactId>
-            <version>${jira.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>${log4j.version}</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
