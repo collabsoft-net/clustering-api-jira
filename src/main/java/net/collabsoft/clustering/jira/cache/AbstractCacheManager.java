@@ -5,13 +5,9 @@ import com.atlassian.jira.component.ComponentAccessor;
 import com.atlassian.jira.util.BuildUtilsInfoImpl;
 import com.atlassian.jira.util.system.VersionNumber;
 import java.util.concurrent.TimeUnit;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public abstract class AbstractCacheManager implements CacheManager {
 
-    @Autowired
-    private com.atlassian.cache.CacheManager clusteredCacheManager;
-    
     // ----------------------------------------------------------------------------------------------- Constructor
 
     public AbstractCacheManager() {
@@ -195,7 +191,6 @@ public abstract class AbstractCacheManager implements CacheManager {
         VersionNumber versionNumber = new VersionNumber(version);
         if(versionNumber.isGreaterThanOrEquals(new VersionNumber(JIRA_MIN_MAJOR_VERSION + "." + JIRA_MIN_MINOR_VERSION))) {
             com.atlassian.cache.CacheManager cacheManager = ComponentAccessor.getComponentOfType(com.atlassian.cache.CacheManager.class);
-            if(cacheManager == null) { cacheManager = clusteredCacheManager; }
             return (cacheManager != null);
         } else {
             return false;

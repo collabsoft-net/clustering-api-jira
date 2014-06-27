@@ -16,13 +16,13 @@ Add the Maven dependency in your project POM:
 <dependency>
     <groupId>net.collabsoft</groupId>
     <artifactId>clustering-api-jira</artifactId>
-    <version>0.9.0</version>
+    <version>0.9.2</version>
 </dependency>
 ```
 
 ### Cache API ###
 
-The Cache API has been build to work almost identical to the Atlassian implementation, with the exception that it is far more extensible (which will not be covered in this example) and that it supports in-memory cache when the Atlassian Caching API is not available while using the same interface.
+The Cache API has been build to work almost identical to the Atlassian implementation. It uses the same interfaces. The main goal is to add support for in-memory cache when the Atlassian Caching API is not available while using the same interface. The library is far more extensible than the example covered in this readme, but this should get you started.
 
 To use the Cache API, include the following line into your *atlassian-plugin.xml*
 
