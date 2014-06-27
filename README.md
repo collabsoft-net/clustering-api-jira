@@ -7,7 +7,8 @@ The Cache API will use in-memory EhCache as a fall-back if the CacheManager serv
         
 Scheduling will use the Atlassian Concurrent Utilities library (com.atlassian.util.concurrent.ThreadFactories) in combination with the JAVA ExecutorsService interface to schedule daemon services in case the clustered SchedulerService is not available.
 
-## Confirmed JIRA Versions ##
+## Confirmed JIRA Versions##
+Clustering API Version: 0.9.2
 
 The list below shows the versions of JIRA which are confirmed to be working with the Clustering API.
 
