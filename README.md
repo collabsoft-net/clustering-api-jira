@@ -22,7 +22,7 @@ Add the Maven dependency in your project POM:
 
 ### Cache API ###
 
-The Cache API has been build to work almost identical to the Atlassian implementation. It uses the same interfaces. The main goal is to add support for in-memory cache when the Atlassian Caching API is not available while using the same interface. The library is far more extensible than the example covered in this readme, but this should get you started.
+The Cache API has been build to work almost identical to the Atlassian implementation. The main goal is to add support for in-memory cache when the Atlassian Caching API is not available while using the same interface. The library is far more extensible than the example covered in this readme, but this should get you started.
 
 To use the Cache API, include the following line into your *atlassian-plugin.xml*
 
