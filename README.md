@@ -12,6 +12,7 @@ Clustering API Version: 0.9.2
 
 The list below shows the versions of JIRA which are confirmed to be working with the Clustering API.
 
+- 5.1.8
 - 6.0.8
 - 6.1.0
 - 6.2.0
