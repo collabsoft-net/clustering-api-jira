@@ -15,7 +15,7 @@ The list below shows the versions of JIRA which are confirmed to be working with
 - 5.1.8
 - 6.0.8
 - 6.1.0
-- 6.2.0
+- 6.2.x
 - 6.3.0-m07
 
 ## Usage ##
