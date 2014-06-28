@@ -7,6 +7,17 @@ The Cache API will use in-memory EhCache as a fall-back if the CacheManager serv
         
 Scheduling will use the Atlassian Concurrent Utilities library (com.atlassian.util.concurrent.ThreadFactories) in combination with the JAVA ExecutorsService interface to schedule daemon services in case the clustered SchedulerService is not available.
 
+## Confirmed JIRA Versions##
+Clustering API Version: 0.9.2
+
+The list below shows the versions of JIRA which are confirmed to be working with the Clustering API.
+
+- 5.1.8
+- 6.0.8
+- 6.1.0
+- 6.2.x
+- 6.3.0-m07
+
 ## Usage ##
 
 Include the clustering-api-jira library to your add-on by cloning it and running *mvn clean install*.
@@ -22,7 +33,7 @@ Add the Maven dependency in your project POM:
 
 ### Cache API ###
 
-The Cache API has been build to work almost identical to the Atlassian implementation. It uses the same interfaces. The main goal is to add support for in-memory cache when the Atlassian Caching API is not available while using the same interface. The library is far more extensible than the example covered in this readme, but this should get you started.
+The Cache API has been build to work almost identical to the Atlassian implementation. The main goal is to add support for in-memory cache when the Atlassian Caching API is not available while using the same interface. The library is far more extensible than the example covered in this readme, but this should get you started.
 
 To use the Cache API, include the following line into your *atlassian-plugin.xml*
 
