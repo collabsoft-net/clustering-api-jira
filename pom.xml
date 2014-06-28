@@ -7,7 +7,7 @@
     
     <groupId>net.collabsoft</groupId>
     <artifactId>clustering-api-jira</artifactId>
-    <version>0.9.2</version>
+    <version>0.9.3</version>
     <packaging>jar</packaging>
 
     <name>JIRA Clustering API</name>
