@@ -10,7 +10,7 @@
     <version>0.9.4-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>JIRA Clustering API</name>
+    <name>CollabSoft Clustering API</name>
     <description>
         The Clustering API for Atlassian JIRA add-ons project is designed to 
         create a backwards-compatible library for caching and scheduling in
