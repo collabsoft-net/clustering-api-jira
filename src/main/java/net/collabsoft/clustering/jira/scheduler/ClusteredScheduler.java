@@ -22,7 +22,9 @@ public interface ClusteredScheduler extends Scheduler {
 
     public void initializeJobRunner(final ClusteredTask job, final Map<String, Object> data);
     public void schedule(ClusteredTask task, Long interval) throws SchedulerServiceException;
+    public void schedule(ClusteredTask task, Map<String, Object> jobData, Long interval) throws SchedulerServiceException;
     public void scheduleOnce(ClusteredTask task, Long interval) throws SchedulerServiceException;
+    public void scheduleOnce(ClusteredTask task, Map<String, Object> jobData, Long interval) throws SchedulerServiceException;
     
     // ----------------------------------------------------------------------------------------------- Private methods
     

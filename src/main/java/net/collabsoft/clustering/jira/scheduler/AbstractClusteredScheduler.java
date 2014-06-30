@@ -97,9 +97,21 @@ public abstract class AbstractClusteredScheduler implements ClusteredScheduler {
         schedulerService.scheduleJob(getJobId(), getJobConfig(Schedule.forInterval(TimeUnit.SECONDS.toMillis(interval), getFirstRunDate())));
     }
     
+    @Override
+    public void schedule(ClusteredTask task, Map<String, Object> jobData, Long interval) throws SchedulerServiceException {
+        initializeJobRunner(task, jobData);
+        schedulerService.scheduleJob(getJobId(), getJobConfig(Schedule.forInterval(TimeUnit.SECONDS.toMillis(interval), getFirstRunDate())));
+    }
+    
     @Override 
     public void scheduleOnce(ClusteredTask task, Long interval) throws SchedulerServiceException {
         initializeJobRunner(task, getJobData());
+        schedulerService.scheduleJob(getJobId(), getJobConfig(Schedule.runOnce(getFirstRunDate())));
+    }
+    
+    @Override
+    public void scheduleOnce(ClusteredTask task, Map<String, Object> jobData, Long interval) throws SchedulerServiceException {
+        initializeJobRunner(task, jobData);
         schedulerService.scheduleJob(getJobId(), getJobConfig(Schedule.runOnce(getFirstRunDate())));
     }
     
