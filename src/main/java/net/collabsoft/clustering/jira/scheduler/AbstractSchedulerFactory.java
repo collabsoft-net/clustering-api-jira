@@ -39,7 +39,7 @@ public abstract class AbstractSchedulerFactory implements SchedulerFactory {
         try {
             String version = new BuildUtilsInfoImpl().getVersion();
             VersionNumber versionNumber = new VersionNumber(version);
-            if(versionNumber.isGreaterThan(new VersionNumber(JIRA_MIN_MAJOR_VERSION + "." + JIRA_MIN_MINOR_VERSION))) {
+            if(versionNumber.isGreaterThanOrEquals(new VersionNumber(JIRA_MIN_MAJOR_VERSION + "." + JIRA_MIN_MINOR_VERSION))) {
                 return ComponentAccessor.getComponent(SchedulerService.class);
             } else {
                 return null;
