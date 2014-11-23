@@ -46,12 +46,14 @@ public abstract class AbstractClusteredScheduler implements ClusteredScheduler {
     
     @Override 
     public String getJobName() {
-        return getPluginJob().getClass().getSimpleName() + ":job";
+        String className = getPluginJob().getClass().getName();
+        return className + ":job";
     }
 
     @Override 
     public String getJobName(String suffix) {
-        return getPluginJob().getClass().getSimpleName() + ":job:" + suffix;
+        String className = getPluginJob().getClass().getName();
+        return className + ":job:" + suffix;
     }
     
     @Override 
