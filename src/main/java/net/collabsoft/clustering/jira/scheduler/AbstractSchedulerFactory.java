@@ -72,6 +72,7 @@ public abstract class AbstractSchedulerFactory implements SchedulerFactory {
 
     public void afterPropertiesSet() throws Exception {
         eventPublisher.register(this);
+        onStart();
     }
     
     public abstract void onStart();    
