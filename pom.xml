@@ -88,7 +88,7 @@
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
-            <url>https://api.bitbucket.org/1.0/repositories/collabsoft/mvn-repository/raw/releases</url>
+            <url>s3://repository.collabsoft.net/releases</url>
         </repository>
         <repository>
             <id>CollabSoft Maven Repository - Snapshots</id>
@@ -99,14 +99,7 @@
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
-            <url>https://api.bitbucket.org/1.0/repositories/collabsoft/mvn-repository/raw/snapshots</url>
-        </repository>
-        <repository>
-            <id>synergian-repo</id>
-            <url>https://raw.github.com/synergian/wagon-git/releases</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
+            <url>s3://repository.collabsoft.net/snapshots</url>
         </repository>
     </repositories>
     
@@ -114,12 +107,12 @@
         <repository>
             <id>CollabSoft Maven Repository</id>
             <name>CollabSoft Maven Repository</name>
-            <url>git:releases://https://bitbucket.org/collabsoft/mvn-repository.git</url>
+            <url>s3://repository.collabsoft.net/releases</url>
         </repository>
         <snapshotRepository>
             <id>CollabSoft Maven Repository</id>
             <name>CollabSoft Maven Repository</name>
-            <url>git:snapshots://https://bitbucket.org/collabsoft/mvn-repository.git</url>
+            <url>s3://repository.collabsoft.net/snapshots</url>
         </snapshotRepository>
     </distributionManagement>
     
@@ -134,18 +127,11 @@
                 <enabled>true</enabled>
             </snapshots>
         </pluginRepository>
-        <pluginRepository>
-            <id>synergian-repo</id>
-            <url>https://raw.github.com/synergian/wagon-git/releases</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-        </pluginRepository>
     </pluginRepositories>
     
     <properties>
-        <jira.version>6.3-m07</jira.version>
-        <scheduler-api.version>1.2.2</scheduler-api.version>
+        <jira.version>7.0.2</jira.version>
+        <scheduler-api.version>1.7.0</scheduler-api.version>
         <cache-api.version>2.3.4</cache-api.version>
         <ehcache.version>2.7.5</ehcache.version>
         <slf4j.version>1.7.2</slf4j.version>
@@ -196,13 +182,5 @@
                 </configuration>
             </plugin>
         </plugins>
-        
-        <extensions>
-            <extension>
-                <groupId>ar.com.synergian</groupId>
-                <artifactId>wagon-git</artifactId>
-                <version>0.2.3</version>
-            </extension>
-        </extensions>
     </build>
 </project>
