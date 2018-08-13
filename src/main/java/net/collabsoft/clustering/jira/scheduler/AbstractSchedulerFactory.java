@@ -4,6 +4,7 @@ package net.collabsoft.clustering.jira.scheduler;
 import com.atlassian.event.api.EventListener;
 import com.atlassian.event.api.EventPublisher;
 import com.atlassian.jira.component.ComponentAccessor;
+import com.atlassian.jira.extension.JiraStartedEvent;
 import com.atlassian.jira.util.BuildUtilsInfoImpl;
 import com.atlassian.jira.util.system.VersionNumber;
 import com.atlassian.plugin.event.events.PluginDisabledEvent;
@@ -55,18 +56,21 @@ public abstract class AbstractSchedulerFactory implements SchedulerFactory {
     // ----------------------------------------------------------------------------------------------- Event Handlers
     
     @EventListener
+    public void onJiraStarted(final JiraStartedEvent event) {    
+        initialized = true;
+        onStart();
+    }
+    
+    @EventListener
     public void onPluginEnabled(PluginEnabledEvent event) {
-        if (getPluginKey().equals(event.getPlugin().getKey()) && !initialized)
-        {
-            initialized = true;
+        if (getPluginKey().equals(event.getPlugin().getKey()) && initialized) {
             onStart();
         }
     }
 
     @EventListener
     public void onPluginDisableEvent(PluginDisabledEvent event) {
-        if (getPluginKey().equals(event.getPlugin().getKey()))
-        {
+        if (getPluginKey().equals(event.getPlugin().getKey())) {
             Scheduler scheduler = getScheduler();
             scheduler.unschedulePreviouslyScheduledJob();
         }
@@ -74,10 +78,6 @@ public abstract class AbstractSchedulerFactory implements SchedulerFactory {
 
     public void afterPropertiesSet() throws Exception {
         eventPublisher.register(this);
-        if(!initialized) {
-            initialized = true;
-            onStart();
-        }
     }
     
     public abstract void onStart();    

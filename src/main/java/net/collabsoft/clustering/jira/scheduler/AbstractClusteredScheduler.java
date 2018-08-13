@@ -32,8 +32,6 @@ public abstract class AbstractClusteredScheduler implements ClusteredScheduler {
     
     // ----------------------------------------------------------------------------------------------- Getters & Setters
 
-    @Override public abstract Long getInterval();
-
     @Override 
     public JobId getJobId() {
         return JobId.of(getJobName());
@@ -90,29 +88,51 @@ public abstract class AbstractClusteredScheduler implements ClusteredScheduler {
     }
     
     // use schedule(ClusteredTask task, Long interval);
-    // in the implementation of the schedule(Long interval) abstract method to schedule a task;
-    @Override public abstract void schedule(Long interval);
+    // in the implementation of either of the schedule abstract methods to schedule a task;
+    @Override public abstract void schedule();
+
+    @Override 
+    public void schedule(Long interval) {
+        throw new UnsupportedOperationException("This operation is currently not implemented for this class");
+    }
+
+    @Override 
+    public void schedule(String cronExpression) throws SchedulerServiceException {
+        this.schedule(getPluginJob(), Schedule.forCronExpression(cronExpression));
+    }
+
+    @Override public void schedule(Schedule schedule) throws SchedulerServiceException {
+        this.schedule(getPluginJob(), schedule);
+    }
 
     @Override
     public void schedule(ClusteredTask task, Long interval) throws SchedulerServiceException {
-        initializeJobRunner(task, getJobData());
-        schedulerService.scheduleJob(getJobId(), getJobConfig(Schedule.forInterval(TimeUnit.SECONDS.toMillis(interval), getFirstRunDate())));
+        this.schedule(task, Schedule.forInterval(TimeUnit.SECONDS.toMillis(interval), getFirstRunDate()));
+    }
+
+    @Override
+    public void schedule(ClusteredTask task, Schedule schedule) throws SchedulerServiceException {
+        this.schedule(task, getJobData(), schedule);
     }
     
     @Override
     public void schedule(ClusteredTask task, Map<String, Object> jobData, Long interval) throws SchedulerServiceException {
-        initializeJobRunner(task, jobData);
-        schedulerService.scheduleJob(getJobId(), getJobConfig(Schedule.forInterval(TimeUnit.SECONDS.toMillis(interval), getFirstRunDate())));
-    }
-    
-    @Override 
-    public void scheduleOnce(ClusteredTask task, Long interval) throws SchedulerServiceException {
-        initializeJobRunner(task, getJobData());
-        schedulerService.scheduleJob(getJobId(), getJobConfig(Schedule.runOnce(getFirstRunDate())));
+        this.schedule(task, jobData, Schedule.forInterval(TimeUnit.SECONDS.toMillis(interval), getFirstRunDate()));
     }
     
     @Override
-    public void scheduleOnce(ClusteredTask task, Map<String, Object> jobData, Long interval) throws SchedulerServiceException {
+    public void schedule(ClusteredTask task, Map<String, Object> jobData, Schedule schedule) throws SchedulerServiceException {
+        initializeJobRunner(task, jobData);
+        schedulerService.scheduleJob(getJobId(), getJobConfig(schedule));
+    }
+    
+    @Override 
+    public void scheduleOnce(ClusteredTask task) throws SchedulerServiceException {
+        this.scheduleOnce(task, getJobData());
+    }
+    
+    @Override
+    public void scheduleOnce(ClusteredTask task, Map<String, Object> jobData) throws SchedulerServiceException {
         initializeJobRunner(task, jobData);
         schedulerService.scheduleJob(getJobId(), getJobConfig(Schedule.runOnce(getFirstRunDate())));
     }

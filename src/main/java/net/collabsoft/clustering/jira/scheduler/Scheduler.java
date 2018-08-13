@@ -6,8 +6,6 @@ import org.apache.log4j.Logger;
 
 public interface Scheduler {
 
-    public abstract Long getInterval();
-
     public String getJobName();
     public String getJobName(String suffix);
     public abstract Map<String, Object> getJobData();
@@ -16,6 +14,8 @@ public interface Scheduler {
     public abstract Logger getLogger();
     
     public void unschedulePreviouslyScheduledJob();
+
+    public void schedule();
     public void schedule(Long interval);
     
 }

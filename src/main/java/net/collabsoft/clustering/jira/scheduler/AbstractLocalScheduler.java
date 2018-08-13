@@ -19,9 +19,6 @@ public abstract class AbstractLocalScheduler implements LocalScheduler {
     // ----------------------------------------------------------------------------------------------- Getters & Setters
 
     @Override
-    public abstract Long getInterval();
-
-    @Override
     public String getJobName() {
         return getPluginJob().getClass().getSimpleName() + ":job";
     }
@@ -38,6 +35,10 @@ public abstract class AbstractLocalScheduler implements LocalScheduler {
     
     // ----------------------------------------------------------------------------------------------- Public methods
 
+    // use schedule(Long interval);
+    // in the implementation of the schedule() abstract methods to schedule a task;
+    @Override public abstract void schedule();
+    
     @Override
     public void schedule(Long interval) {
         schedule(getRunnableJob(getPluginJob(), getJobData()), getJobName(), interval);
