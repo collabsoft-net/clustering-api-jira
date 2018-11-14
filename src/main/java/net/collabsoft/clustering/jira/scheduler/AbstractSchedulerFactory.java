@@ -4,6 +4,7 @@ package net.collabsoft.clustering.jira.scheduler;
 import com.atlassian.event.api.EventListener;
 import com.atlassian.event.api.EventPublisher;
 import com.atlassian.jira.component.ComponentAccessor;
+import com.atlassian.jira.extension.JiraStartedEvent;
 import com.atlassian.jira.util.BuildUtilsInfoImpl;
 import com.atlassian.jira.util.system.VersionNumber;
 import com.atlassian.plugin.event.events.PluginDisabledEvent;
@@ -13,7 +14,7 @@ import com.atlassian.scheduler.SchedulerService;
 public abstract class AbstractSchedulerFactory implements SchedulerFactory {
     
     private boolean initialized = false;
-    protected final EventPublisher eventPublisher;
+    private final EventPublisher eventPublisher;
     private final int JIRA_MIN_MAJOR_VERSION = 6;
     private final int JIRA_MIN_MINOR_VERSION = 3;
     
@@ -55,34 +56,33 @@ public abstract class AbstractSchedulerFactory implements SchedulerFactory {
     // ----------------------------------------------------------------------------------------------- Event Handlers
     
     @EventListener
+    public void onJiraStarted(final JiraStartedEvent event) {
+        initialized = true;
+        onStart();
+    }
+    
+    @EventListener
     public void onPluginEnabled(PluginEnabledEvent event) {
-        if (getPluginKey().equals(event.getPlugin().getKey()) && !initialized)
-        {
-            initialized = true;
+        if (getPluginKey().equals(event.getPlugin().getKey()) && initialized) {
             onStart();
         }
     }
 
     @EventListener
     public void onPluginDisableEvent(PluginDisabledEvent event) {
-        if (getPluginKey().equals(event.getPlugin().getKey()))
-        {
+        if (getPluginKey().equals(event.getPlugin().getKey())) {
             Scheduler scheduler = getScheduler();
             scheduler.unschedulePreviouslyScheduledJob();
         }
     }
 
-    public void afterPropertiesSet() throws Exception {
+    public void afterPropertiesSet() {
         eventPublisher.register(this);
-        if(!initialized) {
-            initialized = true;
-            onStart();
-        }
     }
     
     public abstract void onStart();    
 
-    public void destroy() throws Exception {
+    public void destroy() {
         eventPublisher.unregister(this);
         getScheduler().unschedulePreviouslyScheduledJob();
     }
