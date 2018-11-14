@@ -18,32 +18,28 @@ public abstract class AbstractLocalScheduler implements LocalScheduler {
 
     // ----------------------------------------------------------------------------------------------- Getters & Setters
 
-    @Override
-    public abstract Long getInterval();
-
-    @Override
     public String getJobName() {
         return getPluginJob().getClass().getSimpleName() + ":job";
     }
-
-    @Override
     public String getJobName(String suffix) {
         return getPluginJob().getClass().getSimpleName() + ":job:" + suffix;
     }
 
-    @Override public abstract Map<String, Object> getJobData();
-    @Override public abstract AbstractLocalTask getPluginJob();
-    @Override public abstract String getPluginKey();
-    @Override public abstract Logger getLogger();
+    public abstract Map<String, Object> getJobData();
+    public abstract AbstractLocalTask getPluginJob();
+    public abstract String getPluginKey();
+    public abstract Logger getLogger();
     
     // ----------------------------------------------------------------------------------------------- Public methods
 
-    @Override
+    // use schedule(Long interval);
+    // in the implementation of the schedule() abstract methods to schedule a task;
+    public abstract void schedule();
+
     public void schedule(Long interval) {
         schedule(getRunnableJob(getPluginJob(), getJobData()), getJobName(), interval);
     }
-    
-    @Override
+
     public void unschedulePreviouslyScheduledJob() {
         try {
             schedulerThread.shutdown();
@@ -54,18 +50,14 @@ public abstract class AbstractLocalScheduler implements LocalScheduler {
 
     // ----------------------------------------------------------------------------------------------- Private methods
 
-    @Override
     public Runnable getRunnableJob(final AbstractLocalTask job, final Map<String, Object> data) {
         return new Runnable() {
-            @SuppressWarnings("serial")
-            @Override
             public void run() {
                 job.execute(data);
             }
         };
     }
     
-    @Override
     public void schedule(Runnable job, String jobName, Long interval) {
         schedulerThread = Executors.newSingleThreadScheduledExecutor(
             ThreadFactories.namedThreadFactory(jobName, com.atlassian.util.concurrent.ThreadFactories.Type.DAEMON)
@@ -73,12 +65,9 @@ public abstract class AbstractLocalScheduler implements LocalScheduler {
         schedulerThread.scheduleAtFixedRate(job, 0, interval, TimeUnit.SECONDS);
     }
     
-    @Override
     public void scheduleOnce(final Runnable job, String jobName, final long delay) {
         ExecutorService threadExecutor = Executors.newSingleThreadExecutor(ThreadFactories.namedThreadFactory(jobName, ThreadFactories.Type.DAEMON));
         threadExecutor.submit(new Runnable() {
-            @SuppressWarnings("serial")
-            @Override
             public void run() {
                 try {
                     Thread.sleep(delay * 1000);

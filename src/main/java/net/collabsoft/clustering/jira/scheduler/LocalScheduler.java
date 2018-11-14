@@ -15,7 +15,7 @@ public interface LocalScheduler extends Scheduler {
 
     // ----------------------------------------------------------------------------------------------- Private methods
 
-    public Runnable getRunnableJob(final AbstractLocalTask job, final Map<String, Object> data);
-    public void schedule(Runnable job, String jobName, Long interval);
-    public void scheduleOnce(final Runnable job, String jobName, final long delay);
+    Runnable getRunnableJob(final AbstractLocalTask job, final Map<String, Object> data);
+    void schedule(Runnable job, String jobName, Long interval);
+    void scheduleOnce(final Runnable job, String jobName, final long delay);
 }

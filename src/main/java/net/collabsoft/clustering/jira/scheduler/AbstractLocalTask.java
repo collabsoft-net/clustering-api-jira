@@ -12,7 +12,6 @@ public abstract class AbstractLocalTask implements LocalTask {
 
     // ----------------------------------------------------------------------------------------------- Public Methods
     
-    @Override
     public abstract void execute(Map<String, Object> map);
 
 }

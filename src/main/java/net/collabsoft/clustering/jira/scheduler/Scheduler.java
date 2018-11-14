@@ -4,18 +4,18 @@ package net.collabsoft.clustering.jira.scheduler;
 import java.util.Map;
 import org.apache.log4j.Logger;
 
-public interface Scheduler {
+interface Scheduler {
 
-    public abstract Long getInterval();
-
-    public String getJobName();
-    public String getJobName(String suffix);
-    public abstract Map<String, Object> getJobData();
-    public abstract Object getPluginJob();
-    public abstract String getPluginKey();
-    public abstract Logger getLogger();
+    String getJobName();
+    String getJobName(String suffix);
+    Map<String, Object> getJobData();
+    Object getPluginJob();
+    String getPluginKey();
+    Logger getLogger();
     
-    public void unschedulePreviouslyScheduledJob();
-    public void schedule(Long interval);
+    void unschedulePreviouslyScheduledJob();
+
+    void schedule();
+    void schedule(Long interval);
     
 }
