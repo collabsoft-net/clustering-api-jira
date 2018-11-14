@@ -32,6 +32,8 @@ public abstract class AbstractClusteredScheduler implements ClusteredScheduler {
     
     // ----------------------------------------------------------------------------------------------- Getters & Setters
 
+    public abstract Long getInterval();
+
     public JobId getJobId() {
         return JobId.of(getJobName());
     }

@@ -18,6 +18,7 @@ public abstract class AbstractLocalScheduler implements LocalScheduler {
 
     // ----------------------------------------------------------------------------------------------- Getters & Setters
 
+    public abstract Long getInterval();
     public String getJobName() {
         return getPluginJob().getClass().getSimpleName() + ":job";
     }

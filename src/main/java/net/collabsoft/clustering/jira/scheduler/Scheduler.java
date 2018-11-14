@@ -4,8 +4,9 @@ package net.collabsoft.clustering.jira.scheduler;
 import java.util.Map;
 import org.apache.log4j.Logger;
 
-interface Scheduler {
+public interface Scheduler {
 
+    Long getInterval();
     String getJobName();
     String getJobName(String suffix);
     Map<String, Object> getJobData();
