@@ -1,0 +1,14 @@
+version: 2
+jobs:
+  build:
+    docker:
+    - image: remie/circleci-collabsoft-addons
+
+    environment:
+      JAVA_OPTS: -Xmx3200m
+
+    steps:
+    - checkout
+
+    - deploy:
+        command: atlas-mvn clean deploy
