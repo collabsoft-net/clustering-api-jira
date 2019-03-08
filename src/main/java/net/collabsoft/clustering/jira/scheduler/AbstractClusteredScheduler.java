@@ -11,7 +11,10 @@ import com.atlassian.scheduler.config.JobId;
 import com.atlassian.scheduler.config.JobRunnerKey;
 import com.atlassian.scheduler.config.RunMode;
 import com.atlassian.scheduler.config.Schedule;
+import com.google.common.collect.Lists;
+
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -60,24 +63,36 @@ public abstract class AbstractClusteredScheduler implements ClusteredScheduler {
     public abstract Map<String, Object> getJobData();
     public abstract AbstractClusteredTask getPluginJob();
     public abstract String getPluginKey();
+
+    private List<String> scheduledJobs = Lists.newArrayList();
     
     // ----------------------------------------------------------------------------------------------- Public methods
 
     public void unschedulePreviouslyScheduledJob() {
-        try {
-            schedulerService.unscheduleJob(getJobId());
-            schedulerService.unregisterJobRunner(JobRunnerKey.of(getJobId().toString()));
-        } catch (Exception e) {
-            //don't worry about this exception. just means that the job hadn't yet been added to the scheduler.
-        }        
+        for (String jobId : this.scheduledJobs) {
+            try {
+                schedulerService.unscheduleJob(JobId.of(jobId));
+                schedulerService.unregisterJobRunner(JobRunnerKey.of(jobId));
+            } catch (Exception e) {
+                //don't worry about this exception. just means that the job hadn't yet been added to the scheduler.
+            }
+        }
     }
-    
+
     public void initializeJobRunner(final ClusteredTask job, final Map<String, Object> data) {
-        this.schedulerService.registerJobRunner(JobRunnerKey.of(getJobId().toString()), new JobRunner() {
+        this.initializeJobRunner(this.getJobId().toString(), job, data);
+    }
+
+    public void initializeJobRunner(String jobId, final ClusteredTask job, final Map<String, Object> data) {
+        this.schedulerService.registerJobRunner(JobRunnerKey.of(jobId), new JobRunner() {
             public JobRunnerResponse runJob(JobRunnerRequest request) {
                 return job.execute(data);
             }
         });
+
+        if (!this.scheduledJobs.contains(jobId)) {
+            this.scheduledJobs.add(jobId);
+        }
     }
     
     // use schedule(ClusteredTask task, Long interval);
@@ -141,8 +156,8 @@ public abstract class AbstractClusteredScheduler implements ClusteredScheduler {
     }
 
     public void schedule(JobId jobId, ClusteredTask task, Map<String, Object> jobData, Schedule schedule) throws SchedulerServiceException {
-        initializeJobRunner(task, jobData);
-        schedulerService.scheduleJob(jobId, getJobConfig(schedule));
+        initializeJobRunner(jobId.toString(), task, jobData);
+        schedulerService.scheduleJob(jobId, getJobConfig(jobId, schedule));
     }
 
     public void scheduleOnce(ClusteredTask task) throws SchedulerServiceException {
@@ -151,7 +166,7 @@ public abstract class AbstractClusteredScheduler implements ClusteredScheduler {
     
     public void scheduleOnce(ClusteredTask task, Map<String, Object> jobData) throws SchedulerServiceException {
         initializeJobRunner(task, jobData);
-        schedulerService.scheduleJob(getJobId(), getJobConfig(Schedule.runOnce(getFirstRunDate())));
+        schedulerService.scheduleJob(getJobId(), getJobConfig(this.getJobId(), Schedule.runOnce(getFirstRunDate())));
     }
     
     // ----------------------------------------------------------------------------------------------- Private methods
@@ -159,13 +174,13 @@ public abstract class AbstractClusteredScheduler implements ClusteredScheduler {
     
     // ----------------------------------------------------------------------------------------------- Private Getters & Setters
 
-    private JobConfig getJobConfig(Schedule schedule) {
-        return JobConfig.forJobRunnerKey(JobRunnerKey.of(getJobId().toString()))
+    private JobConfig getJobConfig(JobId jobId, Schedule schedule) {
+        return JobConfig.forJobRunnerKey(JobRunnerKey.of(jobId.toString()))
                         .withSchedule(schedule);
     }
 
-    private JobConfig getJobConfig(RunMode runMode, Schedule schedule) {
-        return JobConfig.forJobRunnerKey(JobRunnerKey.of(getJobId().toString()))
+    private JobConfig getJobConfig(JobId jobId, RunMode runMode, Schedule schedule) {
+        return JobConfig.forJobRunnerKey(JobRunnerKey.of(jobId.toString()))
                         .withRunMode(runMode)
                         .withSchedule(schedule);
     }
